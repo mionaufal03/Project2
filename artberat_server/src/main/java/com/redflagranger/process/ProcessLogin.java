@@ -1,8 +1,8 @@
-package com.redflagranger.parser;
+package com.redflagranger.process;
 
 import com.redflagranger.models.Login;
 
-public class LoginParser {
+public class ProcessLogin {
     public Login parseLogin(String loginRequest) {
         Login login = new Login();
 

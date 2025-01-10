@@ -1,11 +1,11 @@
-package com.redflagranger.models;
+package com.redflagranger.models.BookingData;
 
-public class Booking {
-    private String status;
-    private String message;
-    private BookingDetails bookingDetails;
-    private UserDetails userDetails;
-    private double totalAmount;
+public class BookingDetails {
+    private String bookingID;
+    private String selectedPackage;
+    private int price;
+    private int duration;
+    private String delivery;
 }
 
 /*
