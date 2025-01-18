@@ -8,7 +8,7 @@ const HomePackage = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const url = new URL('http://localhost:8000/image/home');
+        const url = new URL('http://localhost:8000/image');
         const params = { pageID: 'premium' };
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 

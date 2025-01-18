@@ -9,7 +9,7 @@ const HomePage = () => {
     const fetchData = async () => {
       try {
         // Construct the URL with query parameters
-        const url = new URL('http://localhost:8000/image/home');
+        const url = new URL('http://localhost:8000/image');
         const params = { pageID: 'bg' };
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
