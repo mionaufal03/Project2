@@ -58,11 +58,13 @@ public class LoginHandler implements HttpHandler{
             }
             reader.close();
 
+            //  Check credentials
             if(!checkCredential(loginRequest.toString(), accountValues)) {
                 exchange.sendResponseHeaders(401, -1);
                 return;
             }
 
+            //  Sending response
             String loginResponse = responseBuilder(gson, loginRequest.toString(), accountValues);
             sendResponse(loginResponse, exchange);
         }
