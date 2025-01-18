@@ -35,6 +35,7 @@ public class ImagesHomeHandler implements HttpHandler {
         //  Handle GET request
         else if("GET".equals(exchange.getRequestMethod())) {
             String query = exchange.getRequestURI().getQuery();
+            
             //  Check if the GET request is valid. If not, return 404 error code.
             if(query == null || !query.contains("pageID=")) {
                 exchange.sendResponseHeaders(404, -1);

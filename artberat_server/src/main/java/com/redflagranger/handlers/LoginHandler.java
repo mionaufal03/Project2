@@ -92,13 +92,8 @@ public class LoginHandler implements HttpHandler{
          * }
          * 
          * Encryption algorithm:
-         * --> KEY: pnifKcTNX3yrMS3WHeMkZ78lTgYb8RqB
-         * --> combine key, email, password --> token string = KEY + email + password
-         * --> convert token string to int
-         * --> token number = (token string + (userID * 2))^2
-         * 
-         * Decryption algorithm (reverse encryption):
-         * --> token string = sqrt(token number) - (userID * 2)
+         * --> KEY: O3J7upyNO2wbnTvx
+         * token = KEY + "/" + email + "/" + password (simple algorithm)
          */
 
         //  Get the master key
@@ -108,17 +103,15 @@ public class LoginHandler implements HttpHandler{
 
         //  Get credentials from request
         jsonObject = JsonParser.parseString(loginRequest).getAsJsonObject();
-        int userid = jsonObject.get("userid").getAsInt();
         String email = jsonObject.get("email").getAsString();
         String password = jsonObject.get("password").getAsString();
 
         //  Creating token
-        String stringToken = masterKey + email + password;
-        int integerToken = (Integer.parseInt(stringToken) + (userid * 2)) * 2;
+        String token = masterKey + "/" + email + "/" + password;
 
         StringBuilder responseBody = new StringBuilder();
         responseBody.append(
-            "{\"token\": \"" + integerToken + "\"}"
+            "{\"token\": \"" + token + "\"}"
         );
         
         return responseBody.toString();
