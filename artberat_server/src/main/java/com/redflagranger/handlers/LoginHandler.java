@@ -9,9 +9,13 @@ public class LoginHandler implements HttpHandler{
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         Gson gson = new Gson();
-          
+
+        if("OPTIONS".equals(exchange.getRequestMethod())) {
+            //TODO preflight checks
+        }
+        
         //  Handle GET request
-        if("GET".equals(exchange.getRequestMethod())) {
+        else if("GET".equals(exchange.getRequestMethod())) {
 
         }
 

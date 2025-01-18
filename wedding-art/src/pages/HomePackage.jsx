@@ -1,49 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const HomePackage = () => {
-  const packages = [
-    {
-      id: 1,
-      title: "Premium Package 1",
-      price: "RM 120",
-      details:
-        "Escape the ordinary of every day and discover the magic of destination weddings. A destination wedding is so much more than just one day.",
-      image: "/images/premium1.jpg",
-      label: "Hot", // Label for this package
-    },
-    {
-      id: 2,
-      title: "Premium Package 2",
-      price: "RM 170",
-      details:
-        "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
-      image: "/images/premium3.jpg",
-      label: "Exclusive", // Label for this package
-    },
-    {
-      id: 3,
-      title: "Premium Package 3",
-      price: "RM 200",
-      details:
-        "Celebrate your love story with this new package designed to capture every memorable moment in a stunning destination.",
-      image: "/images/premium2.jpg",
-      label: "New", // Label for this package
-    },
-    {
-      id: 4,
-      title: "Basic Package",
-      price: "RM 70",
-      details:
-        "A budget-friendly package for weddings that captures the most essential moments of your special day.",
-      image: "/images/premium4.jpg",
-      label: "Regular", // Label for this package
-    },
-  ];
-
-  // Modal state
+  const [packages, setPackages] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
-
   const [selectedDate, setSelectedDate] = useState("");
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const url = new URL('http://localhost:8000/image/home');
+        const params = { pageID: 'premium' };
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+        const response = await fetch(url);
+
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response for HomePackages.jsx:', data); // Debug API response
+        setPackages(data.packages);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchPackages();
+  }, []);
 
   const handleBooking = () => {
     if (!selectedDate) {
@@ -86,14 +71,17 @@ const HomePackage = () => {
               {pkg.label}
             </span>
 
+            {/* Package Image */}
             <img
-              src={pkg.image}
+              src={pkg.image} // Directly use the base64 image data
               alt={pkg.title}
               className="w-full h-48 object-cover"
             />
             <div className="p-6">
               <h3 className="text-xl text-center font-bold mb-2">{pkg.title}</h3>
-              <p className="text-gray-700 text-center mb-4">{pkg.details.slice(0, 50)}...</p>
+              <p className="text-gray-700 text-center mb-4">
+                {pkg.details.slice(0, 50)}...
+              </p>
               <p className="text-red-500 text-right font-bold">{pkg.price}</p>
             </div>
           </div>
@@ -111,7 +99,7 @@ const HomePackage = () => {
               &times;
             </button>
             <img
-              src={selectedPackage.image}
+              src={selectedPackage.image} // Directly use the base64 image data
               alt={selectedPackage.title}
               className="w-full h-64 object-cover rounded-lg mb-4"
             />
@@ -121,7 +109,7 @@ const HomePackage = () => {
               {selectedPackage.price}
             </p>
             <button
-              onClick={closeModal}
+              onClick={handleBooking}
               className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300"
             >
               Booking

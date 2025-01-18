@@ -1,0 +1,38 @@
+const packages = [
+    {
+      id: 1,
+      title: "Premium Package 1",
+      price: "RM 120",
+      details:
+        "Escape the ordinary of every day and discover the magic of destination weddings. A destination wedding is so much more than just one day.",
+      image: "/images/premium1.jpg",
+      label: "Hot", // Label for this package
+    },
+    {
+      id: 2,
+      title: "Premium Package 2",
+      price: "RM 170",
+      details:
+        "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
+      image: "/images/premium3.jpg",
+      label: "Exclusive", // Label for this package
+    },
+    {
+      id: 3,
+      title: "Premium Package 3",
+      price: "RM 200",
+      details:
+        "Celebrate your love story with this new package designed to capture every memorable moment in a stunning destination.",
+      image: "/images/premium2.jpg",
+      label: "New", // Label for this package
+    },
+    {
+      id: 4,
+      title: "Basic Package",
+      price: "RM 70",
+      details:
+        "A budget-friendly package for weddings that captures the most essential moments of your special day.",
+      image: "/images/premium1.jpg",
+      label: "Regular", // Label for this package
+    },
+  ];
