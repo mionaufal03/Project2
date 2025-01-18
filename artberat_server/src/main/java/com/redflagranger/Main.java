@@ -9,7 +9,7 @@ import com.sun.net.httpserver.HttpServer;
 public class Main {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 10);
-        server.createContext("/image", new ImagesHomeHandler());
+        server.createContext("/home/image", new ImagesHomeHandler());
         server.createContext("/login", new LoginHandler());
         server.setExecutor(null);
         server.start();
