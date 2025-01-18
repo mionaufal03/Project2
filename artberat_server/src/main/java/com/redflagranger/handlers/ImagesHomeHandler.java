@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -78,8 +77,6 @@ public class ImagesHomeHandler implements HttpHandler {
 
                 sendResponse(featuredPackageResponse, exchange);
             }
-
-            
         }
     }
 
