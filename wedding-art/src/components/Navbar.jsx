@@ -50,11 +50,6 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
-
-        {/* Login */}
-        <a href="/login" className="hover:text-red-500">
-          <i className="fas fa-user"></i> Login
-        </a>
       </div>
     </nav>
   );

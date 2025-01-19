@@ -1,43 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const BirthdayPackage = () => {
-  const [showBookingModal, setShowBookingModal] = useState(false); // State to toggle booking modal
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [zoomImage, setZoomImage] = useState(null); // State for the zoomed-in image
-
-  const packageDetails = {
-    title: "Birthday Package",
-    price: "RM 120",
-    details:
-      "Celebrate your graduation in style with our exclusive package, designed to make your special day unforgettable.",
-    images: [
-      "/images/family1.jpg",
-      "/images/family2.jpg",
-      "/images/family3.jpg",
-    ],
-    label: "Hot",
-  };
-
-  const handleBooking = () => {
-    if (!selectedDate || !selectedTime) {
-      alert("Please select both date and time before confirming the booking.");
-      return;
-    }
-    alert(
-      `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
-    );
-    setShowBookingModal(false); // Close the modal after booking
-  };
-
-  const handleImageClick = (img) => {
-    setZoomImage(img); // Open the modal with the selected image
-  };
-
-  const closeModal = () => {
-    setZoomImage(null); // Close the image zoom modal
-  };
-
+   const [showBookingModal, setShowBookingModal] = useState(false);
+   const [selectedDate, setSelectedDate] = useState("");
+   const [selectedTime, setSelectedTime] = useState("");
+   const [zoomImage, setZoomImage] = useState(null);
+ 
+   const [imageList, setImageList] = useState([]); // Holds images from API
+   const [packageDetails, setPackageDetails] = useState({}); // Holds package details
+ 
+   useEffect(() => {
+     const fetchData = async () => {
+       try {
+         const url = new URL("http://localhost:8000/category/birthday")
+         const params = { pageID: 'birthday' };
+         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+ 
+ 
+         const response = await fetch(url);
+ 
+         if (!response.ok) {
+           throw new Error(`HTTP error! status: ${response.status}`);
+         }
+ 
+         const data = await response.json();
+         console.log("API Response for FamilyPackage.jsx:", data);
+ 
+         // Extract image URLs and set the package details
+         setImageList(data.images.map((img) => img.image || ""));
+         setPackageDetails({
+           title: data.title || "Family Package",
+           details: data.details || "No details available.",
+           price: data.price || "Price not available",
+         });
+       } catch (error) {
+         console.error("Error fetching data:", error.message);
+       }
+     };
+ 
+     fetchData();
+   }, []);
+ 
+   const handleBooking = () => {
+     if (!selectedDate || !selectedTime) {
+       alert("Please select both date and time before confirming the booking.");
+       return;
+     }
+     alert(
+       `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
+     );
+     setShowBookingModal(false);
+   };
+ 
+   const handleImageClick = (img) => {
+     setZoomImage(img);
+   };
+ 
+   const closeModal = () => {
+     setZoomImage(null);
+   };
+ 
   return (
     <div className="py-16 px-6 md:px-16 bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
@@ -45,22 +67,20 @@ const BirthdayPackage = () => {
           {/* Image Gallery */}
           <h3 className="text-xl font-bold mb-4">Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {packageDetails.images.map((img, index) => (
+            {imageList.map((img, index) => (
               <img
                 key={index}
                 src={img}
                 alt={`Gallery ${index + 1}`}
                 className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
-                onClick={() => handleImageClick(img)}
+                onClick={() => handleImageClick(img.image)}
               />
             ))}
           </div>
         </div>
-        <h2 className="text-3xl font-bold mb-4">{packageDetails.title}</h2>
-        <p className="text-gray-700 mb-4">{packageDetails.details}</p>
-        <p className="text-red-500 font-bold text-xl mb-6">
-          {packageDetails.price}
-        </p>
+        <h2 className="text-3xl font-bold mb-4">Birthday Package</h2>
+        <p className="text-gray-700 mb-4">Make birthdays special with our tailored packages!</p>
+        <p className="text-red-500 font-bold text-xl mb-6">RM {packageDetails.price}</p>
         <div>
           <button
             onClick={() => setShowBookingModal(true)} // Open the booking modal
