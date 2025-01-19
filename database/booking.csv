@@ -1,2 +1,5 @@
-booking_id,customer_name,package,date,time,pax,location,additonal_info,total_amount,status
-1,customer test 1,A,10/5/2025,10:00 AM,2,"Gelugor, Penang",test data,9999,ongoing
+booking_id,customer_name,email,phone_number,package,date,time,location,price,payment,status
+1,customer test 1,test1@gmail.com,0123456789,Wedding Videography,10/5/2025,10:00 AM,"Gelugor, Penang",9999,paypal,pending
+2,dsad,akamarulzaidi@gmail.com,14134141,Wedding Videography,2025-01-01,15:54,"dsds, 123445, tg sepat",120.0,Paypal,,Pending
+3,dsad,akamarulzaidi@gmail.com,14134141,Wedding Videography,2025-01-03,16:13,"ststststst, 123445, tg sepat",120.0,Paypal,,Pending
+4,dsad,akamarulzaidi@gmail.com,14134141,Wedding Photoshoot,2025-01-31,16:12,"ststststst, 123445, tg sepat",900.0,Paypal,,Pending

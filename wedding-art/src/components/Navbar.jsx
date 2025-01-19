@@ -28,7 +28,7 @@ const Navbar = () => {
         </a>
 
         {/* Navigation Links */}
-        <ul className="flex space-x-6 text-gray-700">
+        <ul className="flex space-x-20 text-gray-700">
           <li>
             <a href="/" className="hover:text-red-500">
               Home
@@ -37,11 +37,6 @@ const Navbar = () => {
           <li>
             <a href="/category" className="hover:text-red-500">
               Category
-            </a>
-          </li>
-          <li>
-            <a href="/blog" className="hover:text-red-500">
-              Blog
             </a>
           </li>
           <li>
