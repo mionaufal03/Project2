@@ -52,7 +52,7 @@ const CheckoutPage = () => {
     }
   };
 
-  const subtotal = cart.reduce((total, item) => total + item.price, 0);
+  const subtotal = cart.reduce((total, item) => total + parseFloat(item.price), 0);
   const total = subtotal;
 
   const isCartEmpty = cart.length === 0;

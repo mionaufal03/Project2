@@ -73,7 +73,7 @@ const HomePage = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             We Create Memories
           </h1>
-          <p className="text-lg md:text-2xl text-white">
+          <p className="text-center text-lg md:text-2xl text-white">
             Let us be your wedding photographer. We'll capture the moments to
             make you remember the story of your beautiful day.
           </p>

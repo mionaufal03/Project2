@@ -42,14 +42,42 @@ const BirthdayPackage = () => {
    }, []);
  
    const handleBooking = () => {
-     if (!selectedDate || !selectedTime) {
-       alert("Please select both date and time before confirming the booking.");
-       return;
-     }
-     alert(
-       `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
-     );
-     setShowBookingModal(false);
+    if (!selectedDate || !selectedTime) {
+      alert("Please select both date and time before confirming the booking.");
+      return;
+    }
+
+    // Retrieve the existing CART from localStorage or initialize an empty array if it doesn't exist
+    const storedCart = JSON.parse(localStorage.getItem("CART")) || [];
+
+    // Check if the item already exists in the cart (by comparing package title, date, and time)
+    const exists = storedCart.some(
+      (item) =>
+        item.title === packageDetails.title &&
+        item.date === selectedDate &&
+        item.time === selectedTime
+    );
+
+    if (exists) {
+      alert("This package is already in the cart.");
+      return;
+    } else {
+      alert(
+        `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
+      );
+    }
+
+    // Add the new package to the "package" array
+    storedCart.push({
+      title: packageDetails.title,
+      price: packageDetails.price,
+      date: selectedDate,
+      time: selectedTime,
+    });
+
+    // Save the updated CART array back to localStorage
+    localStorage.setItem("CART", JSON.stringify(storedCart));
+    setShowBookingModal(false);
    };
  
    const handleImageClick = (img) => {

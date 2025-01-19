@@ -7,3 +7,4 @@ booking_id,customer_name,email,phone_number,package,date,time,location,price,pay
 6,dsad,akamarulzaidi@gmail.com,14134141,Premium Package 3,2025-01-16,16:20,"dasda, 123445, tg sepat",150.0,Paypal,,Pending
 7,dsad,akamarulzaidi@gmail.com,14134141,Family Package,2025-01-24,22:27,"dasda, 123445, tg sepat",120.0,Paypal,,Pending
 8,arif afiq bin kamarulzaidi,arif.afiq@student.usm.my,1234567890,Family Package,2025-01-31,19:26,"lot 955 jalan masjid kampung kundang, 42800, Tanjong Sepat",120.0,Paypal,,Pending
+9,muhammad arif afiq,akamarulzaidi@gmail.com,1234567890,Birthday Package,2025-01-02,00:12,"testing address, 12345, gelugor",120.0,Paypal,,Pending

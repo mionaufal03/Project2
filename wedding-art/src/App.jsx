@@ -10,6 +10,7 @@ import FamilyPackage from "./pages/family/FamilyPackage";
 import BirthdayPackage from "./pages/birthday/BirthdayPackage";
 import WeddingDetails from "./pages/wedding/WeddingDetails";
 import CheckoutPage from "./pages/CheckoutPage";
+import AboutUs from "./pages/AboutUs";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/category/family" element={<FamilyPackage />} />
         <Route path="/category/birthday" element={<BirthdayPackage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/about" element={<AboutUs />} />
         {/* Add more routes for other categories like Graduation, Family, etc. */}
       </Routes>
       <Footer />
