@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const HomePackage = () => {
   const [packages, setPackages] = useState([]);
@@ -29,22 +28,12 @@ const HomePackage = () => {
     fetchPackages();
   }, []);
 
-  const navigate = useNavigate();
-
-  const handlePackageClick = (id) => {
-    navigate(`/package/${id}`);
-  };
-
   return (
     <div className="py-16 bg-gray-100">
       <h2 className="text-4xl font-bold text-center mb-12">Our Packages</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6 md:px-16">
         {packages.map((pkg) => (
-          <div
-            key={pkg.id}
-            className="relative bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
-            onClick={() => handlePackageClick(pkg.id)}
-          >
+          <div key={pkg.id} className="relative bg-white shadow-lg rounded-lg overflow-hidden">
             <span
               className={`absolute top-2 left-2 px-3 py-1 text-sm font-bold text-white rounded ${
                 pkg.label === "Hot"

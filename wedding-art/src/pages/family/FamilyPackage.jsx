@@ -1,41 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const FamilyPackage = () => {
-  const [showBookingModal, setShowBookingModal] = useState(false); // State to toggle booking modal
+  const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  const [zoomImage, setZoomImage] = useState(null); // State for the zoomed-in image
+  const [zoomImage, setZoomImage] = useState(null);
 
-  const packageDetails = {
-    title: "Family Package",
-    price: "RM 120",
-    details:
-      "Celebrate your graduation in style with our exclusive package, designed to make your special day unforgettable.",
-    images: [
-      "/images/family1.jpg",
-      "/images/family2.jpg",
-      "/images/family3.jpg",
-    ],
-    label: "Hot",
-  };
+  const [imageList, setImageList] = useState([]); // Holds images from API
+  const [packageDetails, setPackageDetails] = useState({}); // Holds package details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = new URL("http://localhost:8000/category/family")
+        const params = { pageID: 'family' };
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response for FamilyPackage.jsx:", data);
+
+        // Extract image URLs and set the package details
+        setImageList(data.images.map((img) => img.image || ""));
+        setPackageDetails({
+          title: data.title || "Family Package",
+          details: data.details || "No details available.",
+          price: data.price || "Price not available",
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleBooking = () => {
     if (!selectedDate || !selectedTime) {
       alert("Please select both date and time before confirming the booking.");
       return;
     }
-    alert(
-      `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
+
+    // Retrieve the existing CART from localStorage or initialize an empty array if it doesn't exist
+    const storedCart = JSON.parse(localStorage.getItem("CART")) || [];
+
+    // Check if the item already exists in the cart (by comparing package title, date, and time)
+    const exists = storedCart.some(
+      (item) =>
+        item.title === packageDetails.title &&
+        item.date === selectedDate &&
+        item.time === selectedTime
     );
-    setShowBookingModal(false); // Close the modal after booking
+
+    if (exists) {
+      alert("This package is already in the cart.");
+      return;
+    } else {
+      alert(
+        `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
+      );
+    }
+
+    // Add the new package to the "package" array
+    storedCart.push({
+      title: packageDetails.title,
+      price: packageDetails.price,
+      date: selectedDate,
+      time: selectedTime,
+    });
+
+    // Save the updated CART array back to localStorage
+    localStorage.setItem("CART", JSON.stringify(storedCart));
+    setShowBookingModal(false);
   };
 
   const handleImageClick = (img) => {
-    setZoomImage(img); // Open the modal with the selected image
+    setZoomImage(img);
   };
 
   const closeModal = () => {
-    setZoomImage(null); // Close the image zoom modal
+    setZoomImage(null);
   };
 
   return (
@@ -45,25 +95,29 @@ const FamilyPackage = () => {
           {/* Image Gallery */}
           <h3 className="text-xl font-bold mb-4">Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {packageDetails.images.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`Gallery ${index + 1}`}
-                className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
-                onClick={() => handleImageClick(img)}
-              />
-            ))}
+            {imageList.length > 0 ? (
+              imageList.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Gallery ${index + 1}`}
+                  className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => handleImageClick(img)}
+                />
+              ))
+            ) : (
+              <p>No images available</p>
+            )}
           </div>
         </div>
         <h2 className="text-3xl font-bold mb-4">{packageDetails.title}</h2>
         <p className="text-gray-700 mb-4">{packageDetails.details}</p>
         <p className="text-red-500 font-bold text-xl mb-6">
-          {packageDetails.price}
+          RM {packageDetails.price}
         </p>
         <div>
           <button
-            onClick={() => setShowBookingModal(true)} // Open the booking modal
+            onClick={() => setShowBookingModal(true)}
             className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 w-full"
           >
             Book Now
@@ -92,7 +146,7 @@ const FamilyPackage = () => {
             />
             <div className="flex justify-end">
               <button
-                onClick={() => setShowBookingModal(false)} // Close the modal
+                onClick={() => setShowBookingModal(false)}
                 className="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition duration-300 mr-2"
               >
                 Cancel

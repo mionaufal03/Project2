@@ -1,69 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const PackageDetails = () => {
-  const packages = [
-    {
-      id: 1,
-      title: "Wedding Videography",
-      price: 120,
-      details:
-        "Escape the ordinary of every day and discover the magic of destination weddings. A destination wedding is so much more than just one day.",
-      images: [
-        "/images/premium1.jpg",
-        "/images/premium1-1.jpg",
-        "/images/premium1-2.jpg",
-      ],
-      label: "Hot",
-    },
-    {
-      id: 2,
-      title: "Wedding Photoshoot",
-      price: 900,
-      details:
-        "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
-      images: [
-        "/images/wedding1.JPG",
-        "/images/wedding2.JPG",
-        "/images/wedding3.JPG",
-      ],
-      label: "Exclusive",
-    },
-    {
-        id: 3,
-        title: "Premium Package 3",
-        price: 150,
-        details:
-          "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
-        images: [
-          "/images/premium3.jpg",
-          "/images/premium2-1.jpg",
-          "/images/premium2-2.jpg",
-        ],
-        label: "Exclusive",
-      },
-      {
-        id: 4,
-        title: "Premium Package 4",
-        price: 110,
-        details:
-          "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
-        images: [
-          "/images/premium4.jpg",
-          "/images/premium2-1.jpg",
-          "/images/premium2-2.jpg",
-        ],
-        label: "Exclusive",
-      },
-  ];
-
   const { id } = useParams(); // Get the package ID from the URL
+  console.log("Package ID from URL:", id);
+  const [selectedPackage, setSelectedPackage] = useState(null); // State to store selected package data
   const [showBookingModal, setShowBookingModal] = useState(false); // State to toggle booking modal
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [zoomImage, setZoomImage] = useState(null); // State for the zoomed-in image
 
-  const selectedPackage = packages.find((pkg) => pkg.id === parseInt(id)); // Find the package by ID
+  useEffect(() => {
+    const fetchPackageDetails = async () => {
+      try {
+        const url = new URL('http://localhost:8000/home/packages');
+        const params = { pageID: 'premium' };
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+        const response = await fetch(url);
+        
+        // Check if response is ok
+        if (!response.ok) {
+          throw new Error("Package not found!");
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data); // Debug API response
+
+        // Check if the data is in an array format
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid data format received from API.");
+        }
+
+        setSelectedPackage(data); // Set the selected package data
+      } catch (err) {
+        setError(err.message); // Set error if any
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchPackageDetails(); // Fetch package data on component mount
+  }, [id]); // Re-run when the package ID changes
 
   const handleBooking = () => {
     if (!selectedDate || !selectedTime) {
@@ -72,13 +50,14 @@ const PackageDetails = () => {
     }
 
     // Retrieve the existing CART from localStorage or initialize an empty array if it doesn't exist
-    const storedCart = JSON.parse(localStorage.getItem('CART')) || [];
+    const storedCart = JSON.parse(localStorage.getItem("CART")) || [];
 
     // Check if the item already exists in the cart (by comparing package title, date, and time)
-    const exists = storedCart.some(item =>
-      item.title === selectedPackage.title &&
-      item.date === selectedDate &&
-      item.time === selectedTime
+    const exists = storedCart.some(
+      (item) =>
+        item.title === selectedPackage.title &&
+        item.date === selectedDate &&
+        item.time === selectedTime
     );
 
     if (exists) {
@@ -90,18 +69,16 @@ const PackageDetails = () => {
       );
     }
 
-    // Add a new package to the "package" array
+    // Add the new package to the "package" array
     storedCart.push({
       title: selectedPackage.title,
       price: selectedPackage.price,
       date: selectedDate,
-      time: selectedTime
+      time: selectedTime,
     });
 
-
-
     // Save the updated CART array back to localStorage
-    localStorage.setItem('CART', JSON.stringify(storedCart));
+    localStorage.setItem("CART", JSON.stringify(storedCart));
 
     // Close the modal after booking
     setShowBookingModal(false);
@@ -122,11 +99,11 @@ const PackageDetails = () => {
   return (
     <div className="py-16 px-6 md:px-16 bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <div className="mb-6">
-          {/* Image Gallery */}
-          <h3 className="text-xl font-bold mb-4">Gallery</h3>
+      <div className="mb-6">
+        {/* Image Gallery */}
+        <h3 className="text-xl font-bold mb-4">Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {selectedPackage.images.map((img, index) => (
+            {selectedPackage.map((img, index) => (
               <img
                 key={index}
                 src={img}
@@ -140,7 +117,7 @@ const PackageDetails = () => {
         <h2 className="text-3xl font-bold mb-4">{selectedPackage.title}</h2>
         <p className="text-gray-700 mb-4">{selectedPackage.details}</p>
         <p className="text-red-500 font-bold text-xl mb-6">
-          {selectedPackage.price}
+          RM  {selectedPackage.price}
         </p>
         <div>
           <button
