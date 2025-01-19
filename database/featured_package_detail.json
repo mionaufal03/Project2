@@ -16,14 +16,14 @@
     {
       "id": 3,
       "title": "Premium Package 3",
-      "price": "RM 200",
+      "price": "RM 150",
       "details": "Celebrate your love story with this new package designed to capture every memorable moment in a stunning destination.",
       "label": "New"
     },
     {
       "id": 4,
-      "title": "Basic Package",
-      "price": "RM 70",
+      "title": "Premium Package 4",
+      "price": "RM 100",
       "details": "A budget-friendly package for weddings that captures the most essential moments of your special day.",
       "label": "Regular"
     }
