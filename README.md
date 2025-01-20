@@ -1,5 +1,7 @@
 # CAT201 Group Project
 
+### Project is made with React + Vite for the frontend and Java for the backend
+
 ---
 
 # ArtBerat Production
