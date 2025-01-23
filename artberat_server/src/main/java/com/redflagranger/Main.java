@@ -19,7 +19,8 @@ public class Main {
         server.createContext("/category/graduation", new ImagesHandler());
         server.createContext("/booking", new BookingHandler());
         server.setExecutor(null);
-        server.start();
+        server.start(); //Starting server
         System.out.println("Starting server on port 8000...");
+        
     }
 }
