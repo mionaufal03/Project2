@@ -71,6 +71,16 @@ const Navbar = () => {
               Check Out
             </a>
           </li>
+          <li>
+              <a href="/bookinglist" className="hover:text-red-500 text-lg">
+            Booking List
+              </a>
+            </li>
+            <li>
+              <a href="/login" className="hover:text-red-500 text-lg">
+            Log In
+              </a>
+            </li>
         </ul>
 
         {/* Dropdown for mobile */}
@@ -94,6 +104,16 @@ const Navbar = () => {
             <li>
               <a href="/checkout" className="hover:text-red-500 text-lg">
                 Check Out
+              </a>
+            </li>
+            <li>
+              <a href="/bookinglist" className="hover:text-red-500 text-lg">
+            Booking List
+              </a>
+            </li>
+            <li>
+              <a href="/login" className="hover:text-red-500 text-lg">
+            Log In
               </a>
             </li>
           </ul>

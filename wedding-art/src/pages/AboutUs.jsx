@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUs = () => {
   return (
-    <div className="bg-gray-100 py-10 px-5">
+    <div className="bg-gray-100 py-10 px-5" style={{ paddingTop: 'calc(10px + var(--header-height))' }}>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
 
@@ -45,7 +45,7 @@ const AboutUs = () => {
             <li className="mb-2"><span className="font-bold">Iconic Shots:</span> Create the perfect pre-wedding shots with expert guidance from our photographers.</li>
             <li className="mb-2"><span className="font-bold">Curated Photographers:</span> Our photographers are not only experts at taking photos, but also directing poses!</li>
             <li className="mb-2"><span className="font-bold">Highest Quality Photos:</span> Get the highest quality photos of your pre-weddings for you to cherish in years to come.</li>
-            <li className="mb-2"><span className="font-bold">Fast Delivery:</span> Download your photos directly from the Google in just 48 hours after your pre-wedding session!</li>
+            <li className="mb-2"><span className="font-bold">Fast Delivery:</span> Download your photos directly from Google in just 48 hours after your pre-wedding session!</li>
           </ul>
         </div>
       </div>

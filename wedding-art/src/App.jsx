@@ -11,6 +11,8 @@ import BirthdayPackage from "./pages/birthday/BirthdayPackage";
 import WeddingDetails from "./pages/wedding/WeddingDetails";
 import CheckoutPage from "./pages/CheckoutPage";
 import AboutUs from "./pages/AboutUs";
+import AdminPage from "./pages/AdminPage";
+import LoginPage from "./pages/LogInPage";
 
 const App = () => {
   return (
@@ -26,6 +28,9 @@ const App = () => {
         <Route path="/category/birthday" element={<BirthdayPackage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/adminpage" element={<AdminPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
         {/* Add more routes for other categories like Graduation, Family, etc. */}
       </Routes>
       <Footer />
