@@ -3,11 +3,19 @@ import React, { useState, useEffect } from "react";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage dropdown visibility
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [username, setUsername] = useState(""); // Store the username
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
+
+    // Check if the user is logged in by checking the presence of 'authKey' in localStorage
+    const authKey = localStorage.getItem('authKey');
+    const storedUsername = localStorage.getItem('userName'); // Get the stored username
+    setIsLoggedIn(!!authKey); // Set logged-in status based on authKey presence
+    setUsername(storedUsername || ""); // Set username if logged in
 
     window.addEventListener("scroll", handleScroll);
 
@@ -15,6 +23,23 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Remove username and authKey from localStorage
+    localStorage.removeItem("authKey");
+    localStorage.removeItem("userName");
+
+    // Update state
+    setIsLoggedIn(false);
+    setUsername(""); // Clear the username from state
+
+    // Optionally redirect the user after logout
+    window.location.href = "/login"; // Redirect to login page or home page
+  };
 
   return (
     <nav
@@ -71,16 +96,66 @@ const Navbar = () => {
               Check Out
             </a>
           </li>
-          <li>
-              <a href="/bookinglist" className="hover:text-red-500 text-lg">
-            Booking List
-              </a>
+          {/* Conditionally render the user dropdown if logged in */}
+          {isLoggedIn ? (
+            <li className="relative">
+              <button
+                className="flex items-center space-x-2 text-gray-700 hover:text-red-500"
+                onClick={handleMenuToggle}
+              >
+                <span>{username}</span> {/* Display the username */}
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {/* Dropdown with more options */}
+              {isMenuOpen && (
+                <ul className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+                  <li>
+                    <a
+                      href="/bookinglist"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Booking List
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/profile"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                    >
+                      Log Out
+                    </a>
+                  </li>
+                </ul>
+              )}
             </li>
+          ) : (
             <li>
               <a href="/login" className="hover:text-red-500 text-lg">
-            Log In
+                Log In
               </a>
             </li>
+          )}
         </ul>
 
         {/* Dropdown for mobile */}
@@ -106,16 +181,26 @@ const Navbar = () => {
                 Check Out
               </a>
             </li>
-            <li>
-              <a href="/bookinglist" className="hover:text-red-500 text-lg">
-            Booking List
-              </a>
-            </li>
-            <li>
-              <a href="/login" className="hover:text-red-500 text-lg">
-            Log In
-              </a>
-            </li>
+            {isLoggedIn && (
+              <li>
+                <a href="/bookinglist" className="hover:text-red-500 text-lg">
+                  Booking List
+                </a>
+              </li>
+            )}
+            {isLoggedIn ? (
+              <li>
+                <a href="/profile" className="hover:text-red-500 text-lg">
+                  Profile
+                </a>
+              </li>
+            ) : (
+              <li>
+                <a href="/login" className="hover:text-red-500 text-lg">
+                  Log In
+                </a>
+              </li>
+            )}
           </ul>
         )}
       </div>

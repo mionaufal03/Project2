@@ -52,7 +52,14 @@ const CheckoutPage = () => {
     }
   };
 
-  const subtotal = cart.reduce((total, item) => total + parseFloat(item.price), 0);
+  // Remove item from the cart
+  const removeFromCart = (index) => {
+    const updatedCart = cart.filter((_, i) => i !== index);
+    setCart(updatedCart);
+    localStorage.setItem("CART", JSON.stringify(updatedCart));
+  };
+
+  const subtotal = cart.reduce((total, item) => total + parseFloat(item.package.price), 0);
   const total = subtotal;
 
   const isCartEmpty = cart.length === 0;
@@ -183,9 +190,15 @@ const CheckoutPage = () => {
             <h2 className="text-2xl font-semibold mb-6">Your Order</h2>
             <div className="space-y-4">
               {cart.map((pkg, index) => (
-                <div key={index} className="flex justify-between">
-                  <span>{pkg.title}</span>
-                  <span>RM {pkg.price}</span>
+                <div key={index} className="flex justify-between items-center">
+                  <span>{pkg.package.title}</span>
+                  <span>RM {pkg.package.price}</span>
+                  <button
+                    onClick={() => removeFromCart(index)}
+                    className="ml-4 text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
               <hr className="my-4" />

@@ -1,10 +1,5 @@
 booking_id,customer_name,email,phone_number,package,date,time,location,price,payment,status
-1,customer test 1,test1@gmail.com,0123456789,Wedding Videography,10/5/2025,10:00 AM,"Gelugor, Penang",9999,paypal,pending
-2,dsad,akamarulzaidi@gmail.com,14134141,Wedding Videography,2025-01-01,15:54,"dsds, 123445, tg sepat",120.0,Paypal,,Pending
-3,dsad,akamarulzaidi@gmail.com,14134141,Wedding Videography,2025-01-03,16:13,"ststststst, 123445, tg sepat",120.0,Paypal,,Pending
-4,dsad,akamarulzaidi@gmail.com,14134141,Wedding Photoshoot,2025-01-31,16:12,"ststststst, 123445, tg sepat",900.0,Paypal,,Pending
-5,dsad,akamarulzaidi@gmail.com,14134141,Wedding Videography,2025-01-25,16:19,"dasda, 123445, tg sepat",120.0,Paypal,,Pending
-6,dsad,akamarulzaidi@gmail.com,14134141,Premium Package 3,2025-01-16,16:20,"dasda, 123445, tg sepat",150.0,Paypal,,Pending
-7,dsad,akamarulzaidi@gmail.com,14134141,Family Package,2025-01-24,22:27,"dasda, 123445, tg sepat",120.0,Paypal,,Pending
-8,arif afiq bin kamarulzaidi,arif.afiq@student.usm.my,1234567890,Family Package,2025-01-31,19:26,"lot 955 jalan masjid kampung kundang, 42800, Tanjong Sepat",120.0,Paypal,,Pending
-9,muhammad arif afiq,akamarulzaidi@gmail.com,1234567890,Birthday Package,2025-01-02,00:12,"testing address, 12345, gelugor",120.0,Paypal,,Pending
+1,MUHAMMAD ARIF AFIQ BIN KAMARULZAIDI,akamarulzaidi@gmail.com,01159844391,Videography Package,2025-01-06,10:04,"Lot 955 Jalan Masjid Kampong Kundang 42800 Tanjong Sepat",1400.0,Paypal,Pending
+2,MUHAMMAD ARIF AFIQ BIN KAMARULZAIDI,akamarulzaidi@gmail.com,01159844391,Family Package,2025-01-24,11:33,"Lot 955 Jalan Masjid Kampong Kundang 42800 Tanjong Sepat",300.0,Paypal,Pending
+3,MUHAMMAD ARIF AFIQ BIN KAMARULZAIDI,akamarulzaidi@gmail.com,01159844391,Family Package,2025-01-24,11:33,"Lot 955 Jalan Masjid Kampong Kundang 42800 Tanjong Sepat",300.0,Paypal,Pending
+4,MUHAMMAD ARIF AFIQ BIN KAMARULZAIDI,akamarulzaidi@gmail.com,01159844391,Graduation Package,2025-01-24,11:34,"Lot 955 Jalan Masjid Kampong Kundang 42800 Tanjong Sepat",500.0,Paypal,Pending

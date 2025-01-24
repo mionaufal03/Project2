@@ -1,3 +1,0 @@
-CART = [];
-
-export default CART;

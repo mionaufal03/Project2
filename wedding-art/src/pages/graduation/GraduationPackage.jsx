@@ -1,45 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const GraduationPage = () => {
-  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false); // State to toggle booking modal
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  const [zoomImage, setZoomImage] = useState(null);
+  const [zoomImage, setZoomImage] = useState(null); // State for the zoomed-in image
 
-  const [imageList, setImageList] = useState([]); // Holds images from API
-  const [packageDetails, setPackageDetails] = useState({}); // Holds package details
+  const packageDetails = {
+    title: "Graduation Package",
+    price: "500", // Store price as number for formatting
+    details:
+      "Celebrate your graduation in style with our exclusive package, designed to make your special day unforgettable.",
+    images: [
+      "/images/convo1.JPG",
+      "/images/convo2.JPG",
+      "/images/convo3.JPG",
+      "/images/convo4.JPG",
+      "/images/convo5.JPG",
+      "/images/convo3.JPG",
+    ],
+    label: "Hot",
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url = new URL("http://localhost:8000/category/graduation")
-        const params = { pageID: 'graduation' };
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log("API Response for FamilyPackage.jsx:", data);
-
-        // Extract image URLs and set the package details
-        setImageList(data.images.map((img) => img.image || ""));
-        setPackageDetails({
-          title: data.title || "Family Package",
-          details: data.details || "No details available.",
-          price: data.price || "Price not available",
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Function to format price
+  const getFormattedPrice = (price) => {
+    return `RM ${price.toLocaleString()}`;
+  };
 
   const handleBooking = () => {
     if (!selectedDate || !selectedTime) {
@@ -47,36 +33,25 @@ const GraduationPage = () => {
       return;
     }
 
-    // Retrieve the existing CART from localStorage or initialize an empty array if it doesn't exist
-    const storedCart = JSON.parse(localStorage.getItem("CART")) || [];
-
-    // Check if the item already exists in the cart (by comparing package title, date, and time)
-    const exists = storedCart.some(
-      (item) =>
-        item.title === packageDetails.title &&
-        item.date === selectedDate &&
-        item.time === selectedTime
-    );
-
-    if (exists) {
-      alert("This package is already in the cart.");
-      return;
-    } else {
-      alert(
-        `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
-      );
-    }
-
-    // Add the new package to the "package" array
-    storedCart.push({
-      title: packageDetails.title,
-      price: packageDetails.price,
+    // Create booking details
+    const bookingDetails = {
+      package: packageDetails,
       date: selectedDate,
       time: selectedTime,
-    });
+    };
 
-    // Save the updated CART array back to localStorage
-    localStorage.setItem("CART", JSON.stringify(storedCart));
+    // Get the current cart from localStorage, or initialize it as an empty array
+    const currentCart = JSON.parse(localStorage.getItem("CART")) || [];
+
+    // Add the new booking to the cart
+    currentCart.push(bookingDetails);
+
+    // Save the updated cart back to localStorage
+    localStorage.setItem("CART", JSON.stringify(currentCart));
+
+    alert(
+      `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
+    );
     setShowBookingModal(false); // Close the modal after booking
   };
 
@@ -95,7 +70,7 @@ const GraduationPage = () => {
           {/* Image Gallery */}
           <h3 className="text-xl font-bold mb-4">Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {imageList.map((img, index) => (
+            {packageDetails.images.map((img, index) => (
               <img
                 key={index}
                 src={img}
@@ -109,7 +84,7 @@ const GraduationPage = () => {
         <h2 className="text-3xl font-bold mb-4">{packageDetails.title}</h2>
         <p className="text-gray-700 mb-4">{packageDetails.details}</p>
         <p className="text-red-500 font-bold text-xl mb-6">
-          RM {packageDetails.price}
+          {getFormattedPrice(Number(packageDetails.price))}
         </p>
         <div>
           <button

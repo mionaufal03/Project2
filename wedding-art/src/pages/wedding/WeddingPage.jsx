@@ -1,56 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
+//Wedding packages
 const WeddingPage = () => {
-  const [imageList, setImageList] = useState([]); // Holds images from API
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Construct the URL with query parameters
-        const url = new URL('http://localhost:8000/category/wedding');
-        const params = { pageID: 'wedding' };
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
-        // Make the fetch request
-        const response = await fetch(url);
-
-        // Check if the response is ok (status code 200-299)
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-        console.log('API Response for WeddingPage.jsx:', data); // Debug API response
-
-        // Safeguard for unexpected structure and set image list
-        setImageList(data.wedding || []); // Corrected here
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
-    };
-
-    fetchData();
-  }, []); // Only run once on mount
+  const packages = [
+    {
+      id: 1,
+      title: "Videography Package",
+      price: "RM 1400",
+      details: "Relive every smile, laugh, and heartfelt vow with cinematic videography that beautifully tells the story of your wedding. Our professional videographers use advanced equipment to ensure high-quality footage. From pre-wedding preparation to the grand reception, we’ll document every precious moment with creativity and care.",
+      image: "/images/wedding.jpg",
+    },
+    {
+      id: 2,
+      title: "Photography Package",
+      price: "RM 900",
+      details: "Capture your love story in stunning photographs that you’ll treasure forever. Our expert photographers specialize in creative poses, candid shots, and capturing the smallest details that make your wedding unique.",
+      image: "/images/wedding12.jpg",
+    },
+    {
+      id: 3,
+      title: "Combo Package",
+      price: "RM 1900",
+      details: "With this all-inclusive package, you’ll get stunning photographs and cinematic videos that perfectly capture the essence of your special day. Let us handle the visuals while you enjoy every moment.",
+      image: "/images/wedding13.jpg",
+    },
+  ];
 
   // Modal state
   const navigate = useNavigate();
 
   const handlePackageClick = (id) => {
-    navigate(`/category/wedding/${id}`);
+    navigate(`/package/${id}`);
   };
 
   return (
     <div className="py-16 bg-gray-100">
       <h2 className="text-4xl font-bold text-center mb-12"> WEDDING PACKAGES </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6 md:px-16">
-        {imageList.map((pkg) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6 md:px-16">
+        {packages.map((pkg) => (
           <div
             key={pkg.id}
             className="relative bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
             onClick={() => handlePackageClick(pkg.id)}
           >
+            <span
+              className={`absolute top-2 left-2 px-3 py-1 text-sm font-bold text-white rounded`}
+            >
+              {pkg.label}
+            </span>
             <img
               src={pkg.image}
               alt={pkg.title}

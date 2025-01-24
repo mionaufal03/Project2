@@ -1,53 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const WeddingDetails = () => {
   const { id } = useParams(); // Get the package ID from the URL
-  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false); // State to toggle booking modal
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  const [zoomImage, setZoomImage] = useState(null);
+  const [zoomMedia, setZoomMedia] = useState(null); // State for the zoomed-in image or video
 
-  const [imageList, setImageList] = useState([]); // Holds images from API
-  const [packageDetails, setPackageDetails] = useState({}); // Holds package details
+  const packages = [
+    {
+      id: 1,
+      title: "Videography Package",
+      price: 1400, // Price as a number
+      details:
+        "Escape the ordinary of every day and discover the magic of destination weddings. A destination wedding is so much more than just one day.",
+      videos: [
+        "/images/video1.MOV",
+        "/images/video2.MOV",
+        "/images/video3.MOV",
+      ],
+      label: "Hot",
+    },
+    {
+      id: 2,
+      title: "Photography Package",
+      price: 900, // Price as a number
+      details:
+        "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
+      images: [
+        "/images/wedding1.JPG",
+        "/images/wedding2.JPG",
+        "/images/wedding3.JPG",
+        "/images/wedding4.JPG",
+        "/images/wedding5.JPG",
+        "/images/wedding.jpg",
+      ],
+      label: "Exclusive",
+    },
+    {
+      id: 3,
+      title: "Combo Package",
+      price: 150, // Price as a number
+      details:
+        "Experience an exclusive destination wedding package, crafted to create the perfect celebration of your love.",
+      images: [
+        "/images/premium3.jpg",
+        "/images/premium2-1.jpg",
+        "/images/premium2-2.jpg",
+      ],
+      label: "Exclusive",
+    },
+  ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url = new URL('http://localhost:8000/category/packages');
-        const params = { pageID: 'wedding_packages' };
-        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
-  
-        const response = await fetch(url);
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-  
-        const data = await response.json();
-        console.log("API Response for WeddingDetails.jsx:", data);
-  
-        // Extract wedding package data from response
-        const weddingPackage = data.wedding.find(pkg => pkg.id === parseInt(id)); // Find the specific package by id
-        
-        if (weddingPackage) {
-          setImageList([
-            { image: weddingPackage.image }
-          ]);
-          setPackageDetails({
-            title: weddingPackage.title || "Wedding Package",
-            details: weddingPackage.details || "No details available.",
-            price: weddingPackage.price || "Price not available",
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
-  
-    fetchData();
-  }, [id]);
-  
+  const selectedPackage = packages.find((pkg) => pkg.id === parseInt(id)); // Find the package by ID
 
   const handleBooking = () => {
     if (!selectedDate || !selectedTime) {
@@ -55,69 +61,73 @@ const WeddingDetails = () => {
       return;
     }
 
-    // Retrieve the existing CART from localStorage or initialize an empty array if it doesn't exist
-    const storedCart = JSON.parse(localStorage.getItem("CART")) || [];
-
-    // Check if the item already exists in the cart (by comparing package title, date, and time)
-    const exists = storedCart.some(
-      (item) =>
-        item.title === packageDetails.title &&
-        item.date === selectedDate &&
-        item.time === selectedTime
-    );
-
-    if (exists) {
-      alert("This package is already in the cart.");
-      return;
-    } else {
-      alert(
-        `Package "${packageDetails.title}" booked on ${selectedDate} at ${selectedTime}!`
-      );
-    }
-
-    // Add the new package to the "package" array
-    storedCart.push({
-      title: packageDetails.title,
-      price: packageDetails.price,
+    // Create booking details
+    const bookingDetails = {
+      package: selectedPackage,
       date: selectedDate,
       time: selectedTime,
-    });
+    };
 
-    // Save the updated CART array back to localStorage
-    localStorage.setItem("CART", JSON.stringify(storedCart));
-    setShowBookingModal(false);
+    // Get the current cart from localStorage, or initialize it as an empty array
+    const currentCart = JSON.parse(localStorage.getItem("CART")) || [];
+
+    // Add the new booking to the cart
+    currentCart.push(bookingDetails);
+
+    // Save the updated cart back to localStorage
+    localStorage.setItem("CART", JSON.stringify(currentCart));
+
+    alert(
+      `Package "${selectedPackage.title}" booked on ${selectedDate} at ${selectedTime}!`
+    );
+    setShowBookingModal(false); // Close the modal after booking
   };
 
-  const handleImageClick = (img) => {
-    setZoomImage(img);
+  const handleMediaClick = (media) => {
+    setZoomMedia(media); // Open the modal with the selected media
   };
 
   const closeModal = () => {
-    setZoomImage(null);
+    setZoomMedia(null); // Close the zoom modal
   };
+
+  if (!selectedPackage) {
+    return <div>Package not found!</div>;
+  }
 
   return (
     <div className="py-16 px-6 md:px-16 bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <div className="mb-6">
-          {/* Image Gallery */}
+          {/* Gallery (Images or Videos) */}
           <h3 className="text-xl font-bold mb-4">Gallery</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {imageList.map((img, index) => (
-              <img
-                key={index}
-                src={img.image}
-                alt={`Gallery ${index + 1}`}
-                className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
-                onClick={() => handleImageClick(img)}
-              />
-            ))}
+            {selectedPackage.images &&
+              selectedPackage.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Gallery ${index + 1}`}
+                  className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => handleMediaClick(img)}
+                />
+              ))}
+            {selectedPackage.videos &&
+              selectedPackage.videos.map((video, index) => (
+                <video
+                  key={index}
+                  src={video}
+                  controls
+                  className="w-full h-48 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => handleMediaClick(video)}
+                />
+              ))}
           </div>
         </div>
-        <h2 className="text-3xl font-bold mb-4">{packageDetails.title}</h2>
-        <p className="text-gray-700 mb-4">{packageDetails.details}</p>
+        <h2 className="text-3xl font-bold mb-4">{selectedPackage.title}</h2>
+        <p className="text-gray-700 mb-4">{selectedPackage.details}</p>
         <p className="text-red-500 font-bold text-xl mb-6">
-          RM {packageDetails.price}
+          RM {selectedPackage.price.toFixed(2)} {/* Display price with currency */}
         </p>
         <div>
           <button
@@ -167,14 +177,22 @@ const WeddingDetails = () => {
       )}
 
       {/* Zoom Modal */}
-      {zoomImage && (
+      {zoomMedia && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
           <div className="relative">
-            <img
-              src={zoomImage}
-              alt="Zoomed"
-              className="max-w-screen-lg max-h-screen rounded-lg"
-            />
+            {zoomMedia.endsWith(".MOV") ? (
+              <video
+                src={zoomMedia}
+                controls
+                className="max-w-screen-lg max-h-screen rounded-lg"
+              />
+            ) : (
+              <img
+                src={zoomMedia}
+                alt="Zoomed"
+                className="max-w-screen-lg max-h-screen rounded-lg"
+              />
+            )}
             <button
               onClick={closeModal}
               className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"

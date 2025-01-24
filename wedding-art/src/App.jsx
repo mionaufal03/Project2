@@ -13,6 +13,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AboutUs from "./pages/AboutUs";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LogInPage";
+import PackageDetails from "./pages/PackageDetails"
 
 const App = () => {
   return (
@@ -20,7 +21,9 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        
         <Route path="/category" element={<CategoryPage />} />
+        <Route path="/package/:id" element={<PackageDetails />} />
         <Route path="/category/wedding" element={<WeddingPage />} />
         <Route path="/category/wedding/:id" element={<WeddingDetails />} />
         <Route path="/category/graduation" element={<GraduationPackage />} />
@@ -28,7 +31,7 @@ const App = () => {
         <Route path="/category/birthday" element={<BirthdayPackage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/adminpage" element={<AdminPage />} />
+        <Route path="/bookinglist" element={<AdminPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         {/* Add more routes for other categories like Graduation, Family, etc. */}

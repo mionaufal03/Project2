@@ -15,24 +15,12 @@ const Footer = () => {
           </div>
         </div>
         <div className="mb-6 lg:mb-0">
-          <h2 className="text-lg font-bold text-gray-800">Links</h2>
-          <ul className="text-gray-600 space-y-2 mt-4">
-            <li><a href="/" className="hover:text-red-500">Home</a></li>
-            <li><a href="/service" className="hover:text-red-500">Service</a></li>
-            <li><a href="/blog" className="hover:text-red-500">Blog</a></li>
-            <li><a href="/contact" className="hover:text-red-500">Contact</a></li>
-          </ul>
-        </div>
-        <div className="mb-6 lg:mb-0">
           <h2 className="text-lg font-bold text-gray-800">Have Questions?</h2>
           <p className="text-gray-600 mt-2">
-            Bazar Road, Bhuiyapur-bus-stand, Tangail, Dhaka, Bangladesh
+            address
           </p>
-          <p className="text-gray-600 mt-2">01402919906 | weeding-art@gmail.com</p>
+          <p className="text-gray-600 mt-2">0123456789 | art-berat@gmail.com</p>
         </div>
-      </div>
-      <div className="text-center text-gray-500 mt-8">
-        © 2025 All rights reserved | Wedding Art by ZEON-X
       </div>
     </footer>
   );
